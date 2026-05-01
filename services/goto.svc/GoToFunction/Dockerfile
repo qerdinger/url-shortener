@@ -12,4 +12,4 @@ FROM public.ecr.aws/lambda/java:21
 COPY --from=build-image /task/target/classes /var/task/
 COPY --from=build-image /task/target/dependency /var/task/lib
 # Command can be overwritten by providing a different command in the template directly.
-CMD ["helloworld.App::handleRequest"]
+CMD ["gotosvc.App::handleRequest"]

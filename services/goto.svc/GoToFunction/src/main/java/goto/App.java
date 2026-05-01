@@ -1,4 +1,4 @@
-package helloworld;
+package gotosvc;
 
 import java.io.BufferedReader;
 import java.io.IOException;

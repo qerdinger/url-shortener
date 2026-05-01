@@ -12,7 +12,7 @@ Globals:
     MemorySize: 512
 
 Resources:
-  HelloWorldFunction:
+  GoToFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       PackageType: Image
@@ -22,26 +22,26 @@ Resources:
         Variables:
           PARAM1: VALUE
       Events:
-        HelloWorld:
+        GoTo:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
+            Path: /go
             Method: get
     Metadata:
       DockerTag: java21-maven-v1
-      DockerContext: ./HelloWorldFunction
+      DockerContext: ./GoToFunction
       Dockerfile: Dockerfile
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
+  GoToApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/go/"
+  GoToFunction:
+    Description: "GoTo Lambda Function ARN"
+    Value: !GetAtt GoToFunction.Arn
+  GoToFunctionIamRole:
+    Description: "Implicit IAM Role created for GoTo function"
+    Value: !GetAtt GoToFunctionRole.Arn

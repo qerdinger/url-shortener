@@ -18,7 +18,6 @@ confirm_changeset = true
 resolve_s3 = true
 resolve_image_repos = true
 s3_prefix = "goto-svc"
-region = "eu-west-3"
 
 [default.package.parameters]
 resolve_s3 = true
