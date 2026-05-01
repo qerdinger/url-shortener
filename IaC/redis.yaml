@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ElastiCache Redis
+
+Resources:
+  RedisSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: Redis subnet group
+      SubnetIds:
+        - !ImportValue PrivateSubnetA
+        - !ImportValue PrivateSubnetB
+      CacheSubnetGroupName: redis-subnet-group
+
+  RedisCluster:
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      Engine: redis
+      CacheNodeType: cache.t3.micro
+      NumCacheNodes: 1
+      VpcSecurityGroupIds:
+        - !ImportValue RedisSecurityGroupId
+      CacheSubnetGroupName: !Ref RedisSubnetGroup
+      ClusterName: app-redis
+      Port: 6379
+
+Outputs:
+  RedisEndpoint:
+    Value: !GetAtt RedisCluster.RedisEndpoint.Address
+    Export:
+      Name: RedisEndpoint
+
+  RedisPort:
+    Value: !GetAtt RedisCluster.RedisEndpoint.Port
+    Export:
+      Name: RedisPort

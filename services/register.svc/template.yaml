@@ -12,6 +12,25 @@ Globals:
     MemorySize: 512
 
 Resources:
+  RegisterApi:
+      Type: AWS::Serverless::Api
+      Properties:
+        StageName: Prod
+        DefinitionBody:
+          swagger: "2.0"
+          info:
+            title: Register API
+            version: "1.0"
+
+        Models:
+          UrlCreationModel:
+            type: object
+            required:
+              - url
+            properties:
+              url:
+                type: string
+
   RegisterFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -25,8 +44,12 @@ Resources:
         Register:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /register
-            Method: get
+            Path: /register/
+            Method: POST
+            RestApiId: !Ref RegisterApi
+            RequestModel:
+              Model: UrlCreationModel
+              Required: true
     Metadata:
       DockerTag: java25-maven-v1
       DockerContext: ./RegisterFunction
@@ -38,7 +61,7 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   RegisterApi:
     Description: "API Gateway endpoint URL for Prod stage for Register function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/register/"
+    Value: !Sub "https://${RegisterApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/register/"
   RegisterFunction:
     Description: "Register Lambda Function ARN"
     Value: !GetAtt RegisterFunction.Arn

@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private Subnets
+
+Resources:
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !ImportValue AppVpcId
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: false
+
+  PrivateSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !ImportValue AppVpcId
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      MapPublicIpOnLaunch: false
+
+Outputs:
+  SubnetA:
+    Value: !Ref PrivateSubnetA
+    Export:
+      Name: PrivateSubnetA
+
+  SubnetB:
+    Value: !Ref PrivateSubnetB
+    Export:
+      Name: PrivateSubnetB

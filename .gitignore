@@ -1,4 +1,5 @@
 .vscode
 .aws-sam
+.idea
 target
 dependency-reduced-pom.xml
